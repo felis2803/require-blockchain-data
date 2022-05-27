@@ -1,19 +1,19 @@
 {
-  "name": "require-blockchain-data",
-  "version": "0.0.2",
-  "description": "",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/felis2803/require-blockchain-data.git"
-  },
-  "author": "Ilya Afanasenko",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/felis2803/require-blockchain-data/issues"
-  },
-  "homepage": "https://github.com/felis2803/require-blockchain-data#readme"
+    "name": "require-blockchain-data",
+    "version": "0.0.2",
+    "description": "",
+    "main": "src/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/felis2803/require-blockchain-data.git"
+    },
+    "author": "Ilya Afanasenko",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/felis2803/require-blockchain-data/issues"
+    },
+    "homepage": "https://github.com/felis2803/require-blockchain-data#readme"
 }
