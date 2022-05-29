@@ -15,5 +15,15 @@
     "bugs": {
         "url": "https://github.com/felis2803/require-blockchain-data/issues"
     },
-    "homepage": "https://github.com/felis2803/require-blockchain-data#readme"
+    "homepage": "https://github.com/felis2803/require-blockchain-data#readme",
+    "imports": {
+        "#src": [
+            "./src/index.js"
+        ],
+        "#src/*": [
+            "./src/*",
+            "./src/*.js",
+            "./src/*.json"
+        ]
+    }
 }
