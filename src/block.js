@@ -1,15 +1,5 @@
 const { createHash } = require('crypto');
 
-const { EXPLORER_URLS } = require("./const");
-
-const FIELD_NAME_EQUIVALENTS = {
-    [EXPLORER_URLS.blockchainInfo]: {
-        version:    'ver',
-        prevHash:   'prev_block',
-        merkleRoot: 'mrkl_root',
-    },
-}
-
 class InvalidBlockError extends Error {
     constructor (sourceHash, calculatedHash, block) {
         const message = InvalidBlockError.formatError(sourceHash, calculatedHash);
@@ -20,7 +10,7 @@ class InvalidBlockError extends Error {
         this.calculatedHash = calculatedHash;
         this.block          = block;
         this.rawBlock       = block.rawBlock;
-        this.explorerName   = block.explorerName;
+        this.explorer       = block.explorer;
     }
 
     static formatError (sourceHash, calculatedHash) {
@@ -42,20 +32,23 @@ class Block {
     nonce;
 
     #rawBlock;
-    #explorerName;
+    #explorer;
     #hashableBuffer;
 
-    constructor (rawBlock, explorerName) {
-        this.#rawBlock     = rawBlock;
-        this.#explorerName = explorerName;
+    constructor (rawBlock, explorer) {
+        this.#rawBlock = rawBlock;
+        this.#explorer = explorer;
 
-        const rawBlockFieldNameEquivalents = FIELD_NAME_EQUIVALENTS[explorerName] || {};
+        const rawBlockFieldNameEquivalents = explorer.filedNameEquivalents || {};
 
         for (const filedName in this) {
             const rawBlockFiledName = rawBlockFieldNameEquivalents[filedName] || filedName;
 
             this[filedName] = rawBlock[rawBlockFiledName];
         }
+
+        if (typeof this.time !== 'number')
+            this.time = Date.parse(this.time) / 1000;
 
         this.#verify();
     }
@@ -100,8 +93,8 @@ class Block {
         return this.#rawBlock;
     }
 
-    get explorerName () {
-        return this.#explorerName;
+    get explorer () {
+        return this.#explorer;
     }
 
     get hashableBuffer () {

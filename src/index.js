@@ -1,23 +1,18 @@
-const https = require('https');
+const { explorers, EXPLORER_NAMES } = require('./explorers');
+const { getDataByUrl }              = require('./get-data-by-url');
+const { Block }                     = require('./block');
 
-const { getDataByUrl }  = require('./get-data-by-url');
-const { EXPLORER_URLS } = require('./const');
-const { Block }         = require('./block');
+const explorer = explorers[EXPLORER_NAMES.blockcypher];
 
-const currentExplorerUrl = EXPLORER_URLS.blockchainInfo
+async function getBlockByHash (hashOrHeight) {
+    const buffer = await getDataByUrl(explorer.blockRest + hashOrHeight + '?limit=1');
 
-const lastBlockUrl = `${currentExplorerUrl}/latestblock`;
-const blockPartUrl = `${currentExplorerUrl}/rawblock/`;
-
-async function getBlockByHash (hash) {
-    const buffer = await getDataByUrl(blockPartUrl + hash);
-
-    return new Block(JSON.parse(buffer), currentExplorerUrl);
+    return new Block(JSON.parse(buffer), explorer);
 }
 
 async function getLastBlock () {
-    const buffer   = await getDataByUrl(lastBlockUrl);
-    const { hash } = JSON.parse(buffer);
+    const buffer = await getDataByUrl(explorer.statsRest);
+    const hash   = explorer.extractLastBlockHash(buffer);
 
     return getBlockByHash(hash);
 }
